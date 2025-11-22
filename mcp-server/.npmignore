@@ -1,0 +1,13 @@
+src/
+tsconfig.json
+*.ts
+!*.d.ts
+node_modules/
+*.log
+.env
+.env.*
+venv/
+__pycache__/
+*.py
+requirements.txt
+

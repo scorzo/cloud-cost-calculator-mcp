@@ -1,0 +1,214 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2025-11-21",
+    "currency": "USD",
+    "unit": "hourly",
+    "description": "Static pricing data for AWS EC2 instances and alternative cloud instances"
+  },
+  "aws_instances": {
+    "t3.micro": {
+      "specs": {
+        "vcpu": 2,
+        "memory_gb": 1,
+        "network_performance": "Up to 5 Gigabit"
+      },
+      "pricing": {
+        "us-east-1": 0.0104,
+        "us-west-2": 0.0104,
+        "eu-west-1": 0.0114
+      }
+    },
+    "t3.small": {
+      "specs": {
+        "vcpu": 2,
+        "memory_gb": 2,
+        "network_performance": "Up to 5 Gigabit"
+      },
+      "pricing": {
+        "us-east-1": 0.0208,
+        "us-west-2": 0.0208,
+        "eu-west-1": 0.0228
+      }
+    },
+    "t3.medium": {
+      "specs": {
+        "vcpu": 2,
+        "memory_gb": 4,
+        "network_performance": "Up to 5 Gigabit"
+      },
+      "pricing": {
+        "us-east-1": 0.0416,
+        "us-west-2": 0.0416,
+        "eu-west-1": 0.0456
+      }
+    },
+    "m5.large": {
+      "specs": {
+        "vcpu": 2,
+        "memory_gb": 8,
+        "network_performance": "Up to 10 Gigabit"
+      },
+      "pricing": {
+        "us-east-1": 0.096,
+        "us-west-2": 0.096,
+        "eu-west-1": 0.107
+      }
+    },
+    "m5.xlarge": {
+      "specs": {
+        "vcpu": 4,
+        "memory_gb": 16,
+        "network_performance": "Up to 10 Gigabit"
+      },
+      "pricing": {
+        "us-east-1": 0.192,
+        "us-west-2": 0.192,
+        "eu-west-1": 0.214
+      }
+    },
+    "m5.2xlarge": {
+      "specs": {
+        "vcpu": 8,
+        "memory_gb": 32,
+        "network_performance": "Up to 10 Gigabit"
+      },
+      "pricing": {
+        "us-east-1": 0.384,
+        "us-west-2": 0.384,
+        "eu-west-1": 0.428
+      }
+    },
+    "c5.large": {
+      "specs": {
+        "vcpu": 2,
+        "memory_gb": 4,
+        "network_performance": "Up to 10 Gigabit"
+      },
+      "pricing": {
+        "us-east-1": 0.085,
+        "us-west-2": 0.085,
+        "eu-west-1": 0.094
+      }
+    },
+    "c5.xlarge": {
+      "specs": {
+        "vcpu": 4,
+        "memory_gb": 8,
+        "network_performance": "Up to 10 Gigabit"
+      },
+      "pricing": {
+        "us-east-1": 0.17,
+        "us-west-2": 0.17,
+        "eu-west-1": 0.188
+      }
+    }
+  },
+  "alternative_cloud": {
+    "micro": {
+      "comparable_to": ["t3.micro"],
+      "specs": {
+        "vcpu": 2,
+        "memory_gb": 1,
+        "network_performance": "Up to 5 Gigabit"
+      },
+      "hourly_rate": 0.0080,
+      "savings_vs_aws": "23%"
+    },
+    "small": {
+      "comparable_to": ["t3.small"],
+      "specs": {
+        "vcpu": 2,
+        "memory_gb": 2,
+        "network_performance": "Up to 5 Gigabit"
+      },
+      "hourly_rate": 0.0160,
+      "savings_vs_aws": "23%"
+    },
+    "medium": {
+      "comparable_to": ["t3.medium"],
+      "specs": {
+        "vcpu": 2,
+        "memory_gb": 4,
+        "network_performance": "Up to 5 Gigabit"
+      },
+      "hourly_rate": 0.0320,
+      "savings_vs_aws": "23%"
+    },
+    "standard-large": {
+      "comparable_to": ["m5.large"],
+      "specs": {
+        "vcpu": 2,
+        "memory_gb": 8,
+        "network_performance": "Up to 10 Gigabit"
+      },
+      "hourly_rate": 0.0720,
+      "savings_vs_aws": "25%"
+    },
+    "standard-xlarge": {
+      "comparable_to": ["m5.xlarge"],
+      "specs": {
+        "vcpu": 4,
+        "memory_gb": 16,
+        "network_performance": "Up to 10 Gigabit"
+      },
+      "hourly_rate": 0.1440,
+      "savings_vs_aws": "25%"
+    },
+    "standard-2xlarge": {
+      "comparable_to": ["m5.2xlarge"],
+      "specs": {
+        "vcpu": 8,
+        "memory_gb": 32,
+        "network_performance": "Up to 10 Gigabit"
+      },
+      "hourly_rate": 0.2880,
+      "savings_vs_aws": "25%"
+    },
+    "compute-large": {
+      "comparable_to": ["c5.large"],
+      "specs": {
+        "vcpu": 2,
+        "memory_gb": 4,
+        "network_performance": "Up to 10 Gigabit"
+      },
+      "hourly_rate": 0.0680,
+      "savings_vs_aws": "20%"
+    },
+    "compute-xlarge": {
+      "comparable_to": ["c5.xlarge"],
+      "specs": {
+        "vcpu": 4,
+        "memory_gb": 8,
+        "network_performance": "Up to 10 Gigabit"
+      },
+      "hourly_rate": 0.1360,
+      "savings_vs_aws": "20%"
+    }
+  },
+  "regions": {
+    "us-east-1": {
+      "name": "US East (N. Virginia)",
+      "available": true
+    },
+    "us-west-2": {
+      "name": "US West (Oregon)",
+      "available": true
+    },
+    "eu-west-1": {
+      "name": "Europe (Ireland)",
+      "available": true
+    }
+  },
+  "instance_mapping": {
+    "t3.micro": "micro",
+    "t3.small": "small",
+    "t3.medium": "medium",
+    "m5.large": "standard-large",
+    "m5.xlarge": "standard-xlarge",
+    "m5.2xlarge": "standard-2xlarge",
+    "c5.large": "compute-large",
+    "c5.xlarge": "compute-xlarge"
+  }
+}
+
