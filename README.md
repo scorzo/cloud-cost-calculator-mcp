@@ -14,6 +14,9 @@ This project provides a complete MCP ecosystem for AWS cost comparison:
 
 **Key Innovation:** The web client is a generic MCP testing tool - while it defaults to our cloud cost calculator, you can point it at any GitHub-hosted MCP server to test and interact with it through a modern web UI.
 
+![Universal MCP Web Client](docs/images/web_client.png)
+*Universal MCP Web Client - Connect to any GitHub-hosted MCP server with a modern, real-time chat interface*
+
 ## ✨ Features
 
 ### MCP Server
