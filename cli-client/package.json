@@ -16,8 +16,17 @@
     "aws",
     "cli"
   ],
-  "author": "",
+  "author": "scorzo",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scorzo/cloud-cost-calculator-mcp.git",
+    "directory": "cli-client"
+  },
+  "homepage": "https://github.com/scorzo/cloud-cost-calculator-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/scorzo/cloud-cost-calculator-mcp/issues"
+  },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.30.0",
     "@modelcontextprotocol/sdk": "^0.5.0",

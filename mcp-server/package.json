@@ -1,5 +1,5 @@
 {
-  "name": "@yourorg/cloud-cost-calculator-mcp",
+  "name": "@scorzo/cloud-cost-calculator-mcp",
   "version": "1.0.0",
   "description": "MCP server for AWS cloud cost comparison",
   "type": "module",
@@ -20,12 +20,16 @@
     "cloud",
     "pricing"
   ],
-  "author": "",
+  "author": "scorzo",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/mcp-demo.git",
+    "url": "https://github.com/scorzo/cloud-cost-calculator-mcp.git",
     "directory": "mcp-server"
+  },
+  "homepage": "https://github.com/scorzo/cloud-cost-calculator-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/scorzo/cloud-cost-calculator-mcp/issues"
   },
   "files": [
     "dist",
