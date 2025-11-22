@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: mcp-web-backend
+    env_file:
+      - .env
+    ports:
+      - "8091:3001"
+    volumes:
+      - /tmp/mcp-installs:/tmp/mcp-installs
+      - ./backend/src:/app/src
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+    networks:
+      - mcp-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: mcp-web-frontend
+    ports:
+      - "8090:3000"
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_URL=http://localhost:8091
+      - VITE_WS_URL=ws://localhost:8091/ws/chat
+    networks:
+      - mcp-network
+    restart: unless-stopped
+
+networks:
+  mcp-network:
+    driver: bridge
+

@@ -1,384 +1,214 @@
-# Cloud Cost Comparison MCP Demo
+# Cloud Cost Calculator MCP
 
-A proof-of-concept demonstrating Model Context Protocol (MCP) functionality through a cloud cost comparison tool.
+A complete Model Context Protocol (MCP) implementation demonstrating cloud cost comparison capabilities through multiple client interfaces. Built entirely with TypeScript/Node.js, this project showcases MCP's power in creating AI-assisted tools with real-world utility.
 
-## Overview
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This project is a fully TypeScript/Node.js implementation consisting of two main components:
+## 🌟 Overview
 
-1. **MCP Server**: An npm-installable MCP server that compares AWS instance pricing with alternative cloud products
-2. **CLI Client**: A conversational interface powered by Claude that collects configuration details and presents cost comparisons
+This project provides a complete MCP ecosystem for AWS cost comparison:
 
-## Architecture
+1. **MCP Server** - npm-installable MCP server that compares AWS EC2 pricing with alternative cloud providers
+2. **CLI Client** - Terminal-based conversational interface with local/remote MCP modes
+3. **Web Client** - Universal web-based MCP tester that works with ANY GitHub-hosted MCP server
 
-```
-┌─────────────────────────────────────────────┐
-│           CLI Client (TypeScript)           │
-│                                             │
-│  ┌─────────────┐      ┌─────────────────┐  │
-│  │   Claude    │◄────►│  MCP Client     │  │
-│  │ Integration │      │  (Lifecycle     │  │
-│  │             │      │   Management)   │  │
-│  └─────────────┘      └─────────────────┘  │
-└──────────────────────────────┬──────────────┘
-                               │
-                          MCP Protocol
-                          (stdio/JSON-RPC)
-                               │
-┌──────────────────────────────┴──────────────┐
-│         MCP Server (Python)                 │
-│                                             │
-│  ┌─────────────────────────────────────┐   │
-│  │   Pricing Calculator Engine         │   │
-│  │   Static Pricing Data (JSON)        │   │
-│  └─────────────────────────────────────┘   │
-└─────────────────────────────────────────────┘
-```
+**Key Innovation:** The web client is a generic MCP testing tool - while it defaults to our cloud cost calculator, you can point it at any GitHub-hosted MCP server to test and interact with it through a modern web UI.
 
-## Features
+## ✨ Features
 
-- **Conversational Interface**: Natural language interaction powered by Claude
-- **MCP Integration**: Demonstrates proper MCP server lifecycle management
-- **Local & Remote Modes**: Use local MCP server or install from GitHub on-the-fly
-- **Cost Comparison**: Compares AWS EC2 instance costs with alternative cloud pricing
-- **Structured Prompts**: Guided information collection for accurate comparisons
-- **Graceful Error Handling**: User-friendly error messages and clean shutdowns
+### MCP Server
+- 💰 **Cost Comparison**: Compare AWS EC2 instance costs with alternative cloud pricing
+- 📊 **Detailed Breakdowns**: Per-instance cost analysis with savings percentages
+- 🌍 **Multi-Region Support**: us-east-1, us-west-2, eu-west-1
+- 📦 **npm Installable**: Publish to GitHub and install via npm
+- 🔧 **Two MCP Tools**: 
+  - `calculate_instance_savings` - Compare costs and get recommendations
+  - `list_supported_instances` - Discover available instance types
 
-## Project Structure
+### CLI Client
+- 💬 **Conversational Interface**: Natural language interaction powered by Claude
+- 🔌 **Dual Mode Operation**:
+  - **Local Mode**: Use local MCP server during development
+  - **Remote Mode**: Auto-install MCP server from GitHub
+- 🎯 **Guided Prompts**: Structured information collection
+- ⚡ **Fast Iteration**: Perfect for testing MCP server changes
+
+### Web Client (Universal MCP Tester)
+- 🌐 **Universal**: Connect to ANY GitHub-hosted MCP server
+- 🎨 **Modern UI**: React + Tailwind CSS interface
+- 🔍 **Tool Discovery**: Automatically displays available MCP tools
+- 💬 **Real-time Chat**: WebSocket-based conversation with Claude
+- 🐳 **Containerized**: Full Docker setup with docker-compose
+- 🔧 **Pre-configured**: Defaults to cloud-cost-calculator for instant demo
+- 📱 **Responsive**: Works on desktop, tablet, and mobile
+
+## 🏗️ Architecture
 
 ```
-mcp-demo/
-├── docs/                     # Documentation
-│   ├── PRD.md               # Product Requirements Document
-│   └── IMPLEMENTATION_PHASES.md  # Implementation guide
-├── mcp-server/              # Python MCP server
+┌─────────────────────────────────────────────────────────────┐
+│                    Client Layer                             │
+│  ┌──────────────────┐              ┌──────────────────┐     │
+│  │   CLI Client     │              │   Web Client     │     │
+│  │  (Terminal)      │              │  (Browser UI)    │     │
+│  │                  │              │                  │     │
+│  │  • Local mode    │              │  • Config panel  │     │
+│  │  • Remote mode   │              │  • Chat UI       │     │
+│  │  • Claude chat   │              │  • Tool explorer │     │
+│  └────────┬─────────┘              └────────┬─────────┘     │
+└───────────┼──────────────────────────────────┼──────────────┘
+            │                                  │
+            │         MCP Protocol             │
+            │      (stdio/JSON-RPC)            │
+            │                                  │
+┌───────────┴──────────────────────────────────┴──────────────┐
+│                    MCP Server Layer                         │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │         Cloud Cost Calculator MCP Server             │   │
+│  │              (TypeScript/Node.js)                    │   │
+│  │                                                      │   │
+│  │  Tools:                                              │   │
+│  │  • calculate_instance_savings                        │   │
+│  │  • list_supported_instances                          │   │
+│  │                                                      │   │
+│  │  Data: Static pricing.json                           │   │
+│  └──────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## 📦 Project Structure
+
+```
+cloud-cost-calculator-mcp/
+├── mcp-server/              # TypeScript MCP Server
 │   ├── src/
-│   │   ├── server.py        # MCP server implementation
-│   │   ├── calculator.py    # Pricing calculation logic
-│   │   ├── data_loader.py   # Pricing data loader
+│   │   ├── index.ts         # MCP server implementation
+│   │   ├── calculator.ts    # Cost calculation engine
+│   │   ├── data-loader.ts   # Pricing data loader
 │   │   └── data/
-│   │       └── pricing.json # Static pricing data
-│   ├── requirements.txt
+│   │       └── pricing.json # AWS & alternative pricing
+│   ├── package.json         # npm package config
 │   └── README.md
-├── cli-client/              # TypeScript CLI client
+│
+├── cli-client/              # CLI Client
 │   ├── src/
-│   │   ├── index.ts         # Entry point
-│   │   ├── mcp-lifecycle.ts # Server lifecycle management
-│   │   ├── claude-client.ts # Claude API integration
+│   │   ├── index.ts         # CLI entry point
+│   │   ├── mcp-lifecycle.ts # MCP server lifecycle
+│   │   ├── claude-client.ts # Claude integration
 │   │   └── types.ts         # TypeScript types
 │   ├── package.json
-│   ├── tsconfig.json
 │   └── README.md
-├── test_system.sh           # System test script
-├── LICENSE                  # MIT License
-└── README.md                # This file
+│
+├── web-client/              # Universal Web Client
+│   ├── backend/             # Express API + WebSocket
+│   │   ├── src/
+│   │   │   ├── services/    # GitHub installer, MCP manager
+│   │   │   ├── routes/      # REST API routes
+│   │   │   ├── websocket/   # Chat handler
+│   │   │   └── server.ts    # Main server
+│   │   └── Dockerfile
+│   │
+│   ├── frontend/            # React UI
+│   │   │   ├── components/  # React components
+│   │   │   ├── hooks/       # Custom hooks
+│   │   │   ├── services/    # API client
+│   │   │   └── App.tsx      # Main app
+│   │   └── Dockerfile
+│   │
+│   ├── docker-compose.yml
+│   └── README.md
+│
+└── docs/                    # Documentation
+    ├── PRD.md               # Product requirements
+    ├── PRD-WEB-CLIENT.md    # Web client PRD
+    └── IMPLEMENTATION_PHASES.md
 ```
 
-## Quick Start
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js 18 or higher
-- Anthropic API key ([Get one here](https://console.anthropic.com/))
+- **Node.js 18+**
+- **Anthropic API Key** ([Get one here](https://console.anthropic.com/))
+- **Docker & Docker Compose** (for web client)
 
-### Setup
+### Option 1: Web Client (Recommended) 🌐
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd mcp-demo
-   ```
-
-2. **Set up MCP Server**
-   ```bash
-   cd mcp-server
-   npm install
-   npm run build
-   cd ..
-   ```
-
-3. **Set up CLI Client**
-   ```bash
-   cd cli-client
-   npm install
-   npm run build
-   cd ..
-   ```
-
-4. **Configure Environment**
-   
-   Create a `.env` file in the `cli-client` directory:
-   ```bash
-   cd cli-client
-   echo "ANTHROPIC_API_KEY=your_api_key_here" > .env
-   cd ..
-   ```
-
-5. **Run System Test** (Optional)
-   ```bash
-   ./test_system.sh
-   ```
-
-### Usage
-
-#### Local Mode (Default)
-
-Use the local MCP server from your workspace:
+The fastest way to get started and test ANY GitHub MCP server:
 
 ```bash
-cd cli-client
-npm start
+# Navigate to web client
+cd web-client
+
+# Configure
+cp .env.example .env
+# Edit .env and add your ANTHROPIC_API_KEY
+
+# Start with Docker
+docker-compose up --build
+
+# Open browser
+open http://localhost:3000
 ```
 
-#### Remote Mode
+**What you get:**
+- Pre-configured to connect to cloud-cost-calculator MCP
+- Modern web interface with real-time chat
+- Tool discovery and exploration
+- Can switch to ANY GitHub MCP server
 
-Install and use the MCP server directly from GitHub:
+### Option 2: CLI Client 🖥️
+
+For terminal enthusiasts and rapid development:
 
 ```bash
+# Build MCP server (if testing locally)
+cd mcp-server
+npm install && npm run build
+cd ..
+
+# Set up CLI client
 cd cli-client
+npm install && npm run build
+
+# Configure
+echo "ANTHROPIC_API_KEY=your_key_here" > .env
+
+# Run in local mode (uses ../mcp-server)
+npm start
+
+# OR run in remote mode (installs from GitHub)
 npm start -- --remote
 ```
 
-This mode automatically:
-- Downloads the latest MCP server package from GitHub
-- Installs it to a temporary directory
-- Connects to it seamlessly
+### Option 3: Use MCP Server Standalone 📦
 
-Perfect for:
-- Testing the published package
-- Running without local MCP server setup
-- Verifying GitHub installation works
+Install and use the MCP server directly:
 
-The CLI will guide you through providing your AWS instance details and present a cost comparison.
+```bash
+# Install from GitHub
+npm install github:scorzo/cloud-cost-calculator-mcp#main
 
-## Example Interaction
-
-```
-$ npm start
-
-============================================================
-🌥️  Cloud Cost Comparison Assistant
-============================================================
-
-I'll help you compare your AWS instance costs with our
-alternative cloud platform.
-
-To get started, tell me about your current AWS setup. I need:
-  • Instance types (e.g., t3.micro, m5.large)
-  • How many of each
-  • Which AWS region
-  • Usage hours per month (I'll assume 24/7 if not specified)
-
-Type "quit" or "exit" to end the conversation.
-Type "help" for more information.
-
-============================================================
-
-You: I'm running 3 t3.micro instances in us-east-1, all 24/7
-
-[Thinking...]
-[Calling tool: calculate_instance_savings]
-
-Assistant: Great! Let me calculate the cost comparison for your 3 t3.micro instances.
-
-Based on your AWS configuration:
-- **Current AWS Cost**: $22.78/month
-- **Alternative Cloud Cost**: $17.52/month
-- **Your Savings**: $5.26/month (23.09%)
-
-**Annual Savings**: $63.12
-
-Breakdown:
-- 3x t3.micro in us-east-1
-  - AWS: $0.0104/hour × 730 hours × 3 = $22.78/month
-  - Alternative: $0.0080/hour × 730 hours × 3 = $17.52/month
-
-**Recommendations**:
-- Significant savings - ideal for dev/staging environments
-- Switching to alternative cloud could save $63.12 annually
-
-Would you like to compare other configurations?
-
-You: quit
-
-Thank you for using Cloud Cost Comparison Assistant!
-
-Shutting down MCP server...
-✓ MCP server stopped
-```
-
-## Supported Instance Types
-
-### AWS EC2 Instances
-- **T3 Family**: t3.micro, t3.small, t3.medium
-- **M5 Family**: m5.large, m5.xlarge, m5.2xlarge
-- **C5 Family**: c5.large, c5.xlarge
-
-### Regions
-- **us-east-1**: US East (N. Virginia)
-- **us-west-2**: US West (Oregon)
-- **eu-west-1**: Europe (Ireland)
-
-## MCP Server Tools
-
-### calculate_instance_savings
-
-Calculates cost comparison between AWS and alternative cloud instances.
-
-**Input:**
-```json
+# Use in Claude Desktop
+# Edit: ~/Library/Application Support/Claude/claude_desktop_config.json
 {
-  "instances": [
-    {
-      "type": "t3.micro",
-      "quantity": 3,
-      "region": "us-east-1",
-      "hours_per_month": 730
+  "mcpServers": {
+    "cloud-cost": {
+      "command": "npx",
+      "args": ["-y", "@scorzo/cloud-cost-calculator-mcp"]
     }
-  ]
-}
-```
-
-**Output:**
-```json
-{
-  "comparison": {
-    "aws_monthly_cost": 22.78,
-    "alternative_monthly_cost": 17.52,
-    "savings_amount": 5.26,
-    "savings_percentage": 23.09,
-    "breakdown": [...]
-  },
-  "recommendations": [...]
-}
-```
-
-### list_supported_instances
-
-Returns available AWS instance types and regions.
-
-**Output:**
-```json
-{
-  "aws_instances": ["t3.micro", "t3.small", ...],
-  "regions": ["us-east-1", "us-west-2", "eu-west-1"],
-  "metadata": {...}
-}
-```
-
-## Testing
-
-Run the system test to verify all components:
-
-```bash
-./test_system.sh
-```
-
-This will check:
-1. Pricing data file exists
-2. Python modules load correctly
-3. Calculator engine works
-4. TypeScript builds successfully
-
-## Troubleshooting
-
-### Error: "MCP server script not found"
-
-**Solution**: Ensure you're running from the `cli-client` directory and the MCP server is set up correctly.
-
-### Error: "Failed to connect to MCP server"
-
-**Possible causes:**
-1. MCP server not built
-2. Node.js version < 18
-3. Dependencies not installed
-
-**Solution:**
-```bash
-cd mcp-server
-npm install
-npm run build
-```
-
-### Error: "ANTHROPIC_API_KEY environment variable is not set"
-
-**Solution**: Create a `.env` file in `cli-client` directory:
-```bash
-ANTHROPIC_API_KEY=your_actual_api_key
-```
-
-## Development
-
-### Project Structure Philosophy
-
-This project demonstrates clean separation between:
-- **MCP Server**: Pure calculation logic, no AI dependencies
-- **CLI Client**: Conversation management and user interaction
-- **MCP Protocol**: Clean interface between the two
-
-### Adding New Instance Types
-
-Edit `mcp-server/src/data/pricing.json`:
-
-```json
-{
-  "aws_instances": {
-    "your.instance": {
-      "specs": {...},
-      "pricing": {...}
-    }
-  },
-  "instance_mapping": {
-    "your.instance": "alternative-instance"
   }
 }
 ```
 
-### Extending to Other AWS Services
+## 💬 Usage Examples
 
-The architecture supports adding other service types:
-1. Add new pricing data in `pricing.json`
-2. Create new calculator methods in `calculator.py`
-3. Register new MCP tools in `server.py`
-4. Update Claude system prompt in `claude-client.ts`
+### CLI Client
 
-## Documentation
+```
+$ npm start
 
-- **[PRD](docs/PRD.md)**: Complete product requirements
-- **[Implementation Phases](docs/IMPLEMENTATION_PHASES.md)**: Development guide
-- **[MCP Server README](mcp-server/README.md)**: Server documentation
-- **[CLI Client README](cli-client/README.md)**: Client documentation
+🌥️  Cloud Cost Comparison Assistant
 
-## Future Enhancements
+You: I'm running 3 t3.micro instances in us-east-1, all 24/7
 
-- [ ] Add more AWS services (RDS, S3, Lambda)
-- [ ] Real-time pricing API integration
-- [ ] Web interface alongside CLI
-- [ ] Comparison reports export (PDF, CSV)
-- [ ] Multi-cloud comparisons (AWS, GCP, Azure)
-- [ ] Reserved instance pricing
-- [ ] Savings plan recommendations
-
-## Contributing
-
-This is a proof-of-concept project. Contributions are welcome!
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## License
-
-MIT License - see [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Built with [Anthropic Claude](https://www.anthropic.com/claude) for conversational AI
-- Uses [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) for tool integration
-- Inspired by real-world cloud migration scenarios
-
-## Contact
-
-For questions or feedback, please open an issue on GitHub.
+[Calling tool: calculate_instance_savings]
