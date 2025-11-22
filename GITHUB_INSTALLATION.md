@@ -2,13 +2,32 @@
 
 ## For End Users
 
-### Install the MCP Server
+### Quick Start with CLI (No Installation Required!)
+
+The easiest way to try this is using the CLI's remote mode:
 
 ```bash
-npm install github:yourusername/mcp-demo#mcp-server
+# Clone the repo
+git clone https://github.com/scorzo/cloud-cost-calculator-mcp.git
+cd cloud-cost-calculator-mcp/cli-client
+
+# Install CLI dependencies and set up API key
+npm install
+echo "ANTHROPIC_API_KEY=your_key_here" > .env
+
+# Run in remote mode (automatically downloads MCP server from GitHub)
+npm start -- --remote
 ```
 
-Replace `yourusername` with your actual GitHub username.
+This will automatically download and use the latest MCP server from GitHub without any manual setup!
+
+### Install the MCP Server Package
+
+To install the MCP server as a package in your own project:
+
+```bash
+npm install github:scorzo/cloud-cost-calculator-mcp#main
+```
 
 ### Use with Claude Desktop
 
@@ -23,7 +42,7 @@ Replace `yourusername` with your actual GitHub username.
   "mcpServers": {
     "cloud-cost-calculator": {
       "command": "npx",
-      "args": ["-y", "@yourorg/cloud-cost-calculator-mcp"]
+      "args": ["-y", "@scorzo/cloud-cost-calculator-mcp"]
     }
   }
 }
@@ -35,11 +54,11 @@ Replace `yourusername` with your actual GitHub username.
 
 ## For Developers
 
-### Clone and Build
+### Clone and Build (Local Development)
 
 ```bash
-git clone https://github.com/yourusername/mcp-demo.git
-cd mcp-demo
+git clone https://github.com/scorzo/cloud-cost-calculator-mcp.git
+cd cloud-cost-calculator-mcp
 
 # Build MCP server
 cd mcp-server
@@ -55,20 +74,27 @@ echo "ANTHROPIC_API_KEY=your_key" > .env
 
 ### Run the CLI
 
+**Local Mode** (uses your local MCP server build):
 ```bash
 cd cli-client
 npm start
 ```
 
+**Remote Mode** (uses MCP server from GitHub):
+```bash
+cd cli-client
+npm start -- --remote
+```
+
 ## Repository Structure
 
 ```
-mcp-demo/
+cloud-cost-calculator-mcp/
 ├── mcp-server/          # npm-installable MCP server
 │   ├── src/             # TypeScript source
 │   ├── dist/            # Compiled JavaScript
 │   └── package.json     # npm package config
-├── cli-client/          # Example CLI client
+├── cli-client/          # CLI client with local/remote modes
 │   └── src/
 └── docs/                # Documentation
 ```
@@ -78,19 +104,35 @@ mcp-demo/
 Install a specific version:
 
 ```bash
-# Latest from main branch
-npm install github:yourusername/mcp-demo#mcp-server
+# Latest from main branch (default)
+npm install github:scorzo/cloud-cost-calculator-mcp#main
 
-# Specific release tag
-npm install github:yourusername/mcp-demo#v1.0.0:mcp-server
+# Specific release tag (when available)
+npm install github:scorzo/cloud-cost-calculator-mcp#v1.0.0
 
 # Specific commit
-npm install github:yourusername/mcp-demo#abc1234:mcp-server
+npm install github:scorzo/cloud-cost-calculator-mcp#abc1234
 ```
+
+## CLI Remote Mode Under the Hood
+
+When you run `npm start -- --remote`, the CLI:
+
+1. Creates a temporary directory
+2. Installs the MCP server package from GitHub using npm
+3. Locates the installed server executable
+4. Connects to it using MCP protocol
+5. Cleans up on exit
+
+This makes it perfect for:
+- Testing the published package
+- Demo purposes
+- Running without local setup
+- CI/CD environments
 
 ## Troubleshooting
 
-### Error: "Cannot find module"
+### Error: "Cannot find module" (Local Mode)
 
 Make sure the server is built:
 ```bash
@@ -98,15 +140,27 @@ cd mcp-server
 npm run build
 ```
 
+### Error: "Failed to install remote MCP server" (Remote Mode)
+
+Check your internet connection and try again. The CLI will automatically fall back to local mode if remote installation fails.
+
 ### Error: "Permission denied"
 
 Try with npx:
 ```bash
-npx -y @yourorg/cloud-cost-calculator-mcp
+npx -y @scorzo/cloud-cost-calculator-mcp
 ```
 
 ### Check Installation
 
 ```bash
-npm list @yourorg/cloud-cost-calculator-mcp
+npm list @scorzo/cloud-cost-calculator-mcp
 ```
+
+### Remote Mode Not Working
+
+If `--remote` flag fails:
+1. Check internet connectivity
+2. Verify GitHub repository is accessible
+3. Try clearing npm cache: `npm cache clean --force`
+4. Fall back to local mode (default behavior)

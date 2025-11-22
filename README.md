@@ -39,6 +39,7 @@ This project is a fully TypeScript/Node.js implementation consisting of two main
 
 - **Conversational Interface**: Natural language interaction powered by Claude
 - **MCP Integration**: Demonstrates proper MCP server lifecycle management
+- **Local & Remote Modes**: Use local MCP server or install from GitHub on-the-fly
 - **Cost Comparison**: Compares AWS EC2 instance costs with alternative cloud pricing
 - **Structured Prompts**: Guided information collection for accurate comparisons
 - **Graceful Error Handling**: User-friendly error messages and clean shutdowns
@@ -120,10 +121,33 @@ mcp-demo/
 
 ### Usage
 
+#### Local Mode (Default)
+
+Use the local MCP server from your workspace:
+
 ```bash
 cd cli-client
 npm start
 ```
+
+#### Remote Mode
+
+Install and use the MCP server directly from GitHub:
+
+```bash
+cd cli-client
+npm start -- --remote
+```
+
+This mode automatically:
+- Downloads the latest MCP server package from GitHub
+- Installs it to a temporary directory
+- Connects to it seamlessly
+
+Perfect for:
+- Testing the published package
+- Running without local MCP server setup
+- Verifying GitHub installation works
 
 The CLI will guide you through providing your AWS instance details and present a cost comparison.
 
